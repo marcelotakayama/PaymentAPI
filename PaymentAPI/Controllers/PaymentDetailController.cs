@@ -1,40 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PaymentAPI.Models;
 
-namespace PaymentAPI.Controllers
-{
+namespace PaymentAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentDetailController : ControllerBase
-    {
+    public class PaymentDetailController : ControllerBase {
         private readonly PaymentDetailContext _context;
 
-        public PaymentDetailController(PaymentDetailContext context)
-        {
+        public PaymentDetailController(PaymentDetailContext context) {
             _context = context;
         }
 
         // GET: api/PaymentDetail
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PaymentDetail>>> GetPaymentDetails()
-        {
+        public async Task<ActionResult<IEnumerable<PaymentDetail>>> GetPaymentDetails() {
             return await _context.PaymentDetails.ToListAsync();
         }
 
         // GET: api/PaymentDetail/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PaymentDetail>> GetPaymentDetail(int id)
-        {
+        public async Task<ActionResult<PaymentDetail>> GetPaymentDetail(int id) {
             var paymentDetail = await _context.PaymentDetails.FindAsync(id);
 
-            if (paymentDetail == null)
-            {
+            if (paymentDetail == null) {
                 return NotFound();
             }
 
@@ -44,27 +36,19 @@ namespace PaymentAPI.Controllers
         // PUT: api/PaymentDetail/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPaymentDetail(int id, PaymentDetail paymentDetail)
-        {
-            if (id != paymentDetail.PaymentDetailId)
-            {
+        public async Task<IActionResult> PutPaymentDetail(int id, PaymentDetail paymentDetail) {
+            if (id != paymentDetail.PaymentDetailId) {
                 return BadRequest();
             }
 
             _context.Entry(paymentDetail).State = EntityState.Modified;
 
-            try
-            {
+            try {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PaymentDetailExists(id))
-                {
+            } catch (DbUpdateConcurrencyException) {
+                if (!PaymentDetailExists(id)) {
                     return NotFound();
-                }
-                else
-                {
+                } else {
                     throw;
                 }
             }
@@ -75,8 +59,7 @@ namespace PaymentAPI.Controllers
         // POST: api/PaymentDetail
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
-        {
+        public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail) {
             _context.PaymentDetails.Add(paymentDetail);
             await _context.SaveChangesAsync();
 
@@ -85,11 +68,9 @@ namespace PaymentAPI.Controllers
 
         // DELETE: api/PaymentDetail/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePaymentDetail(int id)
-        {
+        public async Task<IActionResult> DeletePaymentDetail(int id) {
             var paymentDetail = await _context.PaymentDetails.FindAsync(id);
-            if (paymentDetail == null)
-            {
+            if (paymentDetail == null) {
                 return NotFound();
             }
 
@@ -99,8 +80,7 @@ namespace PaymentAPI.Controllers
             return NoContent();
         }
 
-        private bool PaymentDetailExists(int id)
-        {
+        private bool PaymentDetailExists(int id) {
             return _context.PaymentDetails.Any(e => e.PaymentDetailId == id);
         }
     }
