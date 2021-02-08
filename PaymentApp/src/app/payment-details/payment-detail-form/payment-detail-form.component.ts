@@ -24,5 +24,3 @@ export class PaymentDetailFormComponent implements OnInit {
     )
   }
 }
-
-//ddd
